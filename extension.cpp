@@ -124,7 +124,7 @@ cell_t NativeHandler(IPluginContext *pContext, const cell_t *params) {
 
 	const char * classname = localname + (dotpos > 3 ? 4 : 3);
 
-	return g_Functions.PawnCallFunction(classname, funcname, pContext, params);
+	return g_Functions.PawnCallFunction(classname, funcname, pContext, (cell_t*)params);
 }
 
 void CExtension::SDK_OnAllLoaded() {

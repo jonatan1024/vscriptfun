@@ -272,7 +272,7 @@ inline void ScriptToPawn(const ScriptVariant_t& inArg, cell_t& outParam, IPlugin
 	}
 }
 
-cell_t CFunctions::PawnCallFunction(const char * classname, const char * funcname, IPluginContext *pContext, const cell_t *params) {
+cell_t CFunctions::PawnCallFunction(const char * classname, const char * funcname, IPluginContext *pContext, cell_t *params) {
 	CClass& cls = m_classes[classname];
 	const ScriptFunctionBinding_t * func = cls.m_functions[funcname];
 	if (!func)
@@ -305,7 +305,7 @@ cell_t CFunctions::PawnCallFunction(const char * classname, const char * funcnam
 		PawnToScript(params[i + 1 + (global ? 0 : 1)], args[i], descriptor.m_Parameters[i], pContext);
 
 	ScriptVariant_t retVal = CallFunction(func, context, args);
-	cell_t retCell = NULL;
+	cell_t retCell = 0;
 	ScriptToPawn(retVal, returnsString ? params[numParams - 1] : returnsArray ? params[numParams] : retCell, pContext, params[numParams]);
 
 	for (int i = 0; i < descriptor.m_Parameters.Count(); i++) {

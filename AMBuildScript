@@ -173,12 +173,16 @@ class ExtensionConfig(object):
       '-Wno-unused',
       '-Wno-switch',
       '-Wno-array-bounds',
+      '-Wno-unknown-pragmas', #ivscript.h
+      '-Wno-return-type', #ivscript.h
+      '-Wno-reorder', #ivscript.h
+      '-Wno-write-strings', #ivscript.h
       '-msse',
       '-m32',
       '-fvisibility=hidden',
     ]
     cxx.cxxflags += [
-      '-std=c++11',
+      '-std=c++1y',
       '-fno-exceptions',
       '-fno-threadsafe-statics',
       '-Wno-non-virtual-dtor',

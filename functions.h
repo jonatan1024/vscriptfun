@@ -41,7 +41,7 @@ public:
 	ScriptVariant_t CallFunction(const char * classname, const char * funcname, void * context, const ScriptVariant_t * args);
 	ScriptVariant_t CallFunction(const ScriptFunctionBinding_t* func, void * context, const ScriptVariant_t * args);
 
-	cell_t PawnCallFunction(const char * classname, const char * funcname, IPluginContext *pContext, const cell_t *params);
+	cell_t PawnCallFunction(const char * classname, const char * funcname, IPluginContext *pContext, cell_t *params);
 
 	void DumpNatives(CUtlBuffer& nativesBuffer);
 	void CreateInclude(CUtlBuffer& includeBuffer);
