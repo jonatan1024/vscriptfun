@@ -1,0 +1,111 @@
+import os
+
+# I took this from SourceMod
+def ResolveEnvPath(env, folder):
+  if env in os.environ:
+    path = os.environ[env]
+    if os.path.isdir(path):
+      return path
+    return None
+
+  head = os.getcwd()
+  oldhead = None
+  while head != None and head != oldhead:
+    path = os.path.join(head, folder)
+    if os.path.isdir(path):
+      return path
+    oldhead = head
+    head, tail = os.path.split(head)
+
+  return None
+  
+# I took this from SourceMod
+def Normalize(path):
+  return os.path.abspath(os.path.normpath(path))
+
+# Set-up paths, inspired by SourceMod
+# SourceMod path
+if builder.options.sm_path:
+  sm_root = builder.options.sm_path
+else:
+  sm_root = ResolveEnvPath('SOURCEMOD', 'sourcemod')
+if not sm_root or not os.path.isdir(sm_root):
+  raise Exception('Could not find a path to SourceMod!')
+sm_root = Normalize(sm_root)
+# Metamod:Source path
+if builder.options.mms_path:
+  mms_root = builder.options.mms_path
+else:
+  mms_root = ResolveEnvPath('MMSOURCE_DEV', 'metamod-source')
+if not mms_root or not os.path.isdir(mms_root):
+  raise Exception('Could not find a path to Metamod:Source!')
+mms_root = Normalize(mms_root)
+# CSGO HL2SDK path
+if builder.options.hl2sdk_path:
+  hl2sdk_root = builder.options.hl2sdk_path
+else:
+  hl2sdk_root = ResolveEnvPath('HL2SDKCSGO', 'hl2sdk')
+if not hl2sdk_root or not os.path.isdir(hl2sdk_root):
+  raise Exception('Could not find a path to CSGO HL2SDK!')
+hl2sdk_root = Normalize(hl2sdk_root)
+
+builder.DetectCxx()
+compiler = builder.cxx
+compiler.cflags += [
+  #'/P'
+]
+compiler.includes += [
+  os.path.join(hl2sdk_root, 'game', 'shared'),
+  os.path.join(hl2sdk_root, 'public', 'vstdlib'),
+  os.path.join(hl2sdk_root, 'public', 'tier0'),
+  os.path.join(hl2sdk_root, 'public', 'tier1'),
+  os.path.join(hl2sdk_root, 'public', 'engine'),
+  os.path.join(hl2sdk_root, 'public'),
+  os.path.join(hl2sdk_root, 'dlls'),
+  os.path.join(mms_root, 'core'),
+  os.path.join(mms_root, 'core', 'sourcehook'),
+  os.path.join(sm_root, 'public', 'extensions'),
+  os.path.join(sm_root, 'public'),
+  os.path.join(sm_root, 'sourcepawn', 'include'),
+  builder.sourcePath
+];
+if builder.target.platform == 'windows':
+  compiler.defines += ['WIN32', '_WINDOWS']
+  lib_folder = os.path.join(hl2sdk_root, 'lib', 'public')
+  compiler.linkflags += [
+    'legacy_stdio_definitions.lib',
+    compiler.Dep(os.path.join(lib_folder, 'interfaces.lib')),
+    compiler.Dep(os.path.join(lib_folder, 'tier0.lib')),
+    compiler.Dep(os.path.join(lib_folder, 'tier1.lib')),
+    #compiler.Dep(os.path.join(lib_folder, 'tier2.lib')),
+    #compiler.Dep(os.path.join(lib_folder, 'vstdlib.lib')),
+  ]
+else:
+  lib_folder = os.path.join(hl2sdk_root, 'lib', 'linux')
+  #FIXME
+  compiler.postlink += [
+    compiler.Dep(os.path.join(lib_folder, 'tier1_i486.a')),
+  ]
+
+if compiler.vendor.like('msvc'):
+  compiler.cflags += ['/MT']
+  compiler.defines += [
+    '_CRT_SECURE_NO_DEPRECATE',
+    '_CRT_SECURE_NO_WARNINGS',
+    '_CRT_NONSTDC_NO_DEPRECATE',
+    '_ITERATOR_DEBUG_LEVEL=0',
+    'COMPILER_MSVC',
+	'COMPILER_MSVC32'
+  ]
+  compiler.cxxflags += [
+    '/EHsc',
+    '/GR-',
+    '/TP',
+  ]
+program = compiler.Library('vscriptfun.ext')
+program.sources += [
+  'extension.cpp',
+  'functions.cpp',
+  os.path.join(sm_root, 'public', 'smsdk_ext.cpp'),
+]
+builder.Add(program)
