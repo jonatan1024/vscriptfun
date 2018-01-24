@@ -8,7 +8,7 @@
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, version 3.0, as published by the
  * Free Software Foundation.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
@@ -28,7 +28,7 @@
  *
  * Version: $Id$
  */
- 
+
 #include "functions.h"
 #include <utlhash.h>
 
@@ -208,6 +208,21 @@ void CreateClassHeader(CUtlBuffer& includeBuffer, const CFunctions::CClass& cls)
 }
 
 void CFunctions::CreateInclude(CUtlBuffer& includeBuffer) {
+	includeBuffer.PutString("public Extension:__ext_vscriptfun = {\n"
+		"\tname = \"" SMEXT_CONF_NAME "\",\n"
+		"\tfile = \"vsfun.ext\",\n"
+		"#if defined AUTOLOAD_EXTENSIONS\n"
+		"\tautoload = 1,\n"
+		"#else\n"
+		"\tautoload = 0,\n"
+		"#endif\n"
+		"#if defined REQUIRE_EXTENSIONS\n"
+		"\trequired = 1,\n"
+		"#else\n"
+		"\trequired = 0,\n"
+		"#endif\n"
+		"};\n\n");
+
 	includeBuffer.PutString("enum HScript {\n\tHSCRIPT_NULL = 0,\n\tHSCRIPT_INVALID = -1\n}\n\n");
 
 	//create the classes definitions in correct order (parents first, children later)
@@ -217,7 +232,7 @@ void CFunctions::CreateInclude(CUtlBuffer& includeBuffer) {
 		[](auto a) {return (unsigned int)a; });
 
 	while (created.Count() < m_classes.GetNumStrings()) {
-		for(UtlSymId_t it = 0; it < m_classes.GetNumStrings(); it++){
+		for (UtlSymId_t it = 0; it < m_classes.GetNumStrings(); it++) {
 			const CClass& cls = m_classes[it];
 			if (created.Find(cls.m_descriptor) != created.InvalidHandle())
 				continue;
