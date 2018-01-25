@@ -1,5 +1,5 @@
 # VScript Functions
-## What this?
+## What is this?
 This is a [SourceMod](http://www.sourcemod.net/) extension that exposes [VScript](https://developer.valvesoftware.com/wiki/VScript) functions and methods to be used by modders.
 ## How to build this?
 Just as any other [AMBuild](https://wiki.alliedmods.net/AMBuild) project:
@@ -60,5 +60,5 @@ public Action Slap(int client, int args)
 ## Additional information
 * This was tested only in CS:GO, but any modern VScript-using Source game (like Dota 2) should be ok.
 * You can use CEntities class to search and browse through entities. You can use the returned handle to construct CBaseEntity or any other derived class, but don't pass it into constructors of non-entity classes like CScriptKeyValues! (unless you want to crash your server)
-* This extension used to be a part of the [Gorme](https://github.com/jonatan1024/gorme) project
+* This extension used to be a part of the [Gorme](https://github.com/jonatan1024/gorme) project.
 
