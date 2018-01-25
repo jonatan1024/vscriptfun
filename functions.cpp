@@ -210,7 +210,7 @@ void CreateClassHeader(CUtlBuffer& includeBuffer, const CFunctions::CClass& cls)
 void CFunctions::CreateInclude(CUtlBuffer& includeBuffer) {
 	includeBuffer.PutString("public Extension:__ext_vscriptfun = {\n"
 		"\tname = \"" SMEXT_CONF_NAME "\",\n"
-		"\tfile = \"vsfun.ext\",\n"
+		"\tfile = \"vscriptfun.ext\",\n"
 		"#if defined AUTOLOAD_EXTENSIONS\n"
 		"\tautoload = 1,\n"
 		"#else\n"

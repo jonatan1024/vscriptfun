@@ -40,7 +40,7 @@
 /* Basic information exposed publicly */
 #define SMEXT_CONF_NAME			"VScript Functions"
 #define SMEXT_CONF_DESCRIPTION	"Exposes VScript methods to SourceMod"
-#define SMEXT_CONF_VERSION		"1.0.0.0"
+#define SMEXT_CONF_VERSION		"1.0.0.1"
 #define SMEXT_CONF_AUTHOR		"jonatan1024"
 #define SMEXT_CONF_URL			"https://github.com/jonatan1024/vscriptfun"
 #define SMEXT_CONF_LOGTAG		"VSCRIPTFUN"
