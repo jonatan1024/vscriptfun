@@ -30,16 +30,17 @@
  */
 
 #pragma once
-#include <extension.h>
+#include "extension.h"
+#include "include/ivscriptfunctions.h"
 #include <UtlStringMap.h>
 #include <vscript/ivscript.h>
 #include <utlbuffer.h>
 
-class CFunctions {
+class CFunctions : public IVScriptFunctions {
 public:
-	const ScriptFunctionBinding_t * LookupFunction(const char * classname, const char * funcname);
-	ScriptVariant_t CallFunction(const char * classname, const char * funcname, void * context, const ScriptVariant_t * args);
-	ScriptVariant_t CallFunction(const ScriptFunctionBinding_t* func, void * context, const ScriptVariant_t * args);
+	virtual const ScriptFunctionBinding_t * LookupFunction(const char * classname, const char * funcname);
+	virtual ScriptVariant_t CallFunction(const char * classname, const char * funcname, void * context, const ScriptVariant_t * args);
+	virtual ScriptVariant_t CallFunction(const ScriptFunctionBinding_t* func, void * context, const ScriptVariant_t * args);
 
 	cell_t PawnCallFunction(const char * classname, const char * funcname, IPluginContext *pContext, cell_t *params);
 

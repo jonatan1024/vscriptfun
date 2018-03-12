@@ -340,7 +340,7 @@ class ExtensionConfig(object):
       compiler.defines.remove('_vsnprintf=vsnprintf')
 
     if compiler.like('msvc'):
-      compiler.defines += ['COMPILER_MSVC', 'COMPILER_MSVC32']
+      compiler.defines += ['COMPILER_MSVC', 'COMPILER_MSVC32', 'MSVC']
       if compiler.version >= 1900:
         compiler.linkflags += ['legacy_stdio_definitions.lib']
     else:

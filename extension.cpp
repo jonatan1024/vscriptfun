@@ -81,6 +81,11 @@ bool CExtension::SDK_OnMetamodLoad(ISmmAPI *ismm, char *error, size_t maxlen, bo
 	return true;
 }
 
+bool CExtension::SDK_OnLoad(char *error, size_t maxlength, bool late) {
+	sharesys->AddInterface(myself, &g_Functions);
+	return true;
+}
+
 void CExtension::SDK_OnUnload() {
 	SH_REMOVE_HOOK_ID(RegisterFunctionHookId);
 	SH_REMOVE_HOOK_ID(RegisterClassHookId);
