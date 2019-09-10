@@ -136,7 +136,7 @@ void CExtension::SDK_OnAllLoaded() {
 	char nativesPath[PLATFORM_MAX_PATH];
 	smutils->BuildPath(Path_SM, nativesPath, sizeof(nativesPath), "data/vscriptfun/natives");
 	if (g_pFullFileSystem->FileExists(nativesPath)) {
-		CUtlBuffer nativesBuffer(0, 4096, CUtlBuffer::TEXT_BUFFER);
+		static CUtlBuffer nativesBuffer(0, 4096, CUtlBuffer::TEXT_BUFFER);
 		g_pFullFileSystem->ReadFile(nativesPath, NULL, nativesBuffer);
 
 		char native[256];
