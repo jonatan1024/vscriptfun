@@ -348,7 +348,7 @@ class ExtensionConfig(object):
 
     #!!TODO!! remove this eventually
     if sdk.name in ['portal2']:
-      if compiler.family == 'gcc' or compiler.family == 'clang':
+      if compiler.like('gcc') or compiler.like('clang'):
         compiler.cxxflags += [
           '-Wno-error',
           '-Wno-reorder',
@@ -357,7 +357,7 @@ class ExtensionConfig(object):
           '-Wno-address',
           '-Wno-unknown-pragmas'
         ]
-      if compiler.family == 'clang':
+      if compiler.like('clang'):
         compiler.cxxflags += ['-Wno-macro-redefined']
 
     # For everything after Swarm, this needs to be defined for entity networking
